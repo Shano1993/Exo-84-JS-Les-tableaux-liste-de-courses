@@ -1,4 +1,5 @@
 // Inutile de modifier le code suivant
+
 let articles = [
     "Orangina",
     "Creme Fraiche",
@@ -12,42 +13,52 @@ let articles = [
 
 // Votre code à partir d'ici :
 
-let listeCourse = document.getElementById('listeCourse');
+const list = document.querySelector('#listeCourse');
+const completeList = document.getElementById('complete-list');
 
-for (let i = 0; i < articles.length; i++) {
-    let elemLi = document.createElement('li');
-    elemLi.innerHTML = articles[i];
-    listeCourse.appendChild(elemLi);
+function addItemElement(itemText) {
+    const newItem = document.createElement('li');
+    const hideElement = document.createElement('a');
+    const deleteElement = document.createElement('a');
+
+    newItem.innerHTML = itemText;
+    hideElement.innerHTML = 'M ';
+    deleteElement.innerHTML = 'S ';
+    newItem.prepend(hideElement);
+    newItem.prepend(deleteElement);
+
+    list.appendChild(newItem);
+    completeList.innerHTML = articles.join(', ');
+
+    hideElement.addEventListener("click", function (e) {
+        this.parentElement.style.opacity = '0';
+    });
+
+    deleteElement.addEventListener("click", function (e) {
+        this.parentElement.remove();
+    })
 }
 
 
-let buttonDel = document.createElement('button');
-buttonDel.innerHTML = "Supprimer";
-listeCourse.prepend(buttonDel);
+// Ajout d'un nouvel élément dans la liste
+document.querySelector('button').addEventListener('click', function (e) {
+    const item = document.querySelector('input').value;
+    if (item.length > 0) {
+        articles.push(item);
+        addItemElement(item);
+    }
+});
 
-let buttonAdd = document.createElement('button');
-buttonAdd.innerHTML = "Ajouter";
-listeCourse.prepend(buttonAdd);
-
-let champ = document.createElement('input');
-listeCourse.prepend(champ);
-
-buttonAdd.addEventListener("click", function () {
-
-})
-
-buttonDel.addEventListener("click", function () {
-
-})
+// Supprime le dernier élément dans la liste
+document.querySelector('#delete-last-item').addEventListener('click', function (e) {
+    articles.pop();
+    list.lastChild.remove();
+});
 
 
-
-
-
-
-
-
-
+for (let article of articles) {
+    addItemElement(article);
+}
 
 
 
